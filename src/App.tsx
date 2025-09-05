@@ -2,6 +2,7 @@ import { useState } from 'react'
 import './App.css'
 import Title from './components/Title'
 import type { Expense } from './expens.type';
+import { AddExpense } from './components/AddExpense';
 
 function App() {
 
@@ -19,7 +20,8 @@ function App() {
 
         <div className="flex p-4 my-2 flex-col lg:flex-row bg-gray-700 items-center rounded-2xl w-full">
           <div className="card w-full">
-            <p>Wallet Balance : {walletBalance}</p>
+            <p>Wallet Balance : <span className='text-green-400'> ₹{walletBalance}</span></p>
+            <AddExpense setWalletBal={setWalletBalance}/>
           </div>
           <div className="card w-full">
             <p>Expenses : </p>
