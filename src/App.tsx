@@ -1,8 +1,10 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './App.css'
 import Title from './components/Title'
 import type { Expense } from './expens.type';
+import { AddBalance } from './components/AddBalance';
 import { AddExpense } from './components/AddExpense';
+import DisplayExpenses from './components/DisplayExpenses';
 
 function App() {
 
@@ -12,6 +14,28 @@ function App() {
 
   const [walletBalance, setWalletBalance] = useState(localStorage.getItem('balance'));
   const [expenseData, setExpenseData] = useState<Expense[]>([])
+  const [totalExpense, setTotalExpense] = useState(0)
+
+  const handleExpense = (addExpense: any) => {
+    // console.log(data)
+    setExpenseData((data) => ([...data, addExpense]))
+    localStorage.setItem('expenses', JSON.stringify([...expenseData, addExpense]))
+    console.log(expenseData)
+  }
+
+  useEffect(() => {
+    if (localStorage.getItem('expenses')) {
+      setExpenseData(JSON.parse(localStorage.getItem('expenses')!) as Expense[])
+    }
+  }, [])
+
+  useEffect(() => {
+    let totalExp = 0
+    expenseData.forEach((expense) => {
+      totalExp += expense.amount
+    })
+    setTotalExpense(totalExp)
+  }, [expenseData])
 
   return (
     <>
@@ -21,13 +45,14 @@ function App() {
         <div className="flex p-4 my-2 flex-col lg:flex-row bg-gray-700 items-center rounded-2xl w-full">
           <div className="card w-full">
             <p>Wallet Balance : <span className='text-green-400'> ₹{walletBalance}</span></p>
-            <AddExpense setWalletBal={setWalletBalance}/>
+            <AddBalance setWalletBal={setWalletBalance} />
           </div>
           <div className="card w-full">
-            <p>Expenses : </p>
+            <p>Expenses : {totalExpense}</p>
+            <AddExpense setExpenseData={handleExpense} />
           </div>
 
-          <div className='card w-full' style={{backgroundColor : '#364153'}}>
+          <div className='card w-full' style={{ backgroundColor: '#364153' }}>
             <p>abc</p>
           </div>
         </div>
@@ -36,7 +61,14 @@ function App() {
           <div className="col-span-2">
             <Title name='Recent Transactions' italic />
             <div className='mt-3'>
-              {expenseData.length > 0 ? <div></div> : <div className='p-3 rounded-lg bg-white text-black'>No transactions!</div>}
+              {expenseData.length > 0 ? (
+                expenseData.map((expense, index) => (
+                  <DisplayExpenses expense={expense} index={index} key={index} />
+                ))
+              )
+                :
+                <div className='p-3 rounded-lg bg-white text-black'>No transactions!</div>
+              }
             </div>
           </div>
           <div>

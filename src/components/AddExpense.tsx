@@ -4,61 +4,104 @@ import {
     Dialog,
     DialogClose,
     DialogContent,
-    DialogDescription,
-    DialogFooter,
     DialogHeader,
     DialogTitle,
     DialogTrigger,
 } from "../components/ui/dialog"
 import { Input } from "../components/ui/input"
 import Title from "./Title"
-// import { Label } from "../components/ui/label"
+import type { Expense } from "@/expens.type"
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectLabel,
+    SelectTrigger,
+    SelectValue,
+} from "../components/ui/select"
+import { Calendar22 } from "./DatePicker"
 
-export function AddExpense({ setWalletBal }: { setWalletBal: (balance: string) => void }) {
-  const [addBalance, setAddBalance] = useState(0)
-  const [open, setOpen] = useState(false)
+export function AddExpense({ setExpenseData }: { setExpenseData: (data: Expense) => void }) {
 
-  return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <form>
-        <DialogTrigger asChild>
-          <Button className="bg-green-500 w-50">+ Add Balance</Button>
-        </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px] bg-white text-black">
-          <DialogHeader>
-            <DialogTitle><Title name="Add Balance" /></DialogTitle>
-          </DialogHeader>
+    const [expense, setExpense] = useState<Expense>({
+        title: '',
+        category: 'Food',
+        date: new Date(),
+        amount: 0
+    })
 
-          <div className="flex flex-row gap-2">
-            <Input
-              placeholder="Income Amount"
-              type="number"
-              value={addBalance}
-              onChange={(e) => setAddBalance(Number(e.target.value))}
-            />
+    const [open, setOpen] = useState(false)
 
-            <Button
-              type="submit"
-              className="bg-yellow-400"
-              onClick={(e) => {
-                e.preventDefault(); // prevent form reload
-                let available_balance = Number(localStorage.getItem("balance")) || 0;
-                let total_balance = available_balance + addBalance;
-                localStorage.setItem("balance", total_balance.toString());
-                setWalletBal(total_balance.toString());
-                setAddBalance(0)
-                setOpen(false); // close dialog
-              }}
-            >
-              Add Balance
-            </Button>
+    return (
+        <Dialog open={open} onOpenChange={setOpen}>
+            <form>
+                <DialogTrigger asChild>
+                    <Button className="bg-red-500 w-50">+ Add Expenses</Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-[425px] bg-white text-black">
+                    <DialogHeader>
+                        <DialogTitle><Title name="Add Expenses" /></DialogTitle>
+                    </DialogHeader>
 
-            <DialogClose asChild>
-              <Button variant="outline">Cancel</Button>
-            </DialogClose>
-          </div>
-        </DialogContent>
-      </form>
-    </Dialog>
-  )
+                    <div className="flex flex-row gap-2">
+                        <Input
+                            placeholder="Title"
+                            value={expense.title}
+                            onChange={(e) => setExpense((data) => ({ ...data, title: e.target.value }))}
+                        />
+                        <Input
+                            placeholder="Price"
+                            type="number"
+                            value={expense.amount}
+                            onChange={(e) => setExpense((data) => ({ ...data, amount: Number(e.target.value) }))}
+                        />
+                    </div>
+
+                    <div className="flex flex-row gap-2">
+                        <Select onValueChange={(v: any) => setExpense((data) => ({ ...data, category: v }))}>
+                            <SelectTrigger className="w-[180px] bg-white text-black">
+                                <SelectValue placeholder="Select Category" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectGroup className="bg-gray-300 text-black">
+                                    <SelectLabel>Fruits</SelectLabel>
+                                    <SelectItem value="Food">Food</SelectItem>
+                                    <SelectItem value="Entertainment">Entertainment</SelectItem>
+                                    <SelectItem value="Travel">Travel</SelectItem>
+                                </SelectGroup>
+                            </SelectContent>
+                        </Select>
+
+                        <Calendar22 selectedDate={(value) => setExpense((data) => ({ ...data, date: value }))} />
+                    </div>
+
+                    <div className="flex gap-2">
+                        <Button
+                            type="submit"
+                            className="bg-yellow-400 w-[50%]"
+                            onClick={(e) => {
+                                e.preventDefault(); // prevent form reload
+                                const { amount, title, category, date } = expense;
+                                if (amount == 0 || title == "" || date == undefined){
+                                    alert("Please enter the all fields")
+                                } else {
+                                    setExpenseData(expense)
+                                    setExpense({
+                                        title : "", amount : 0, category : "Food", date : new Date()
+                                    })
+                                }
+                            }}
+                        >
+                            Add Expense
+                        </Button>
+
+                        <DialogClose asChild>
+                            <Button variant="outline">Cancel</Button>
+                        </DialogClose>
+                    </div>
+                </DialogContent>
+            </form>
+        </Dialog>
+    )
 }
