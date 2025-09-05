@@ -17,7 +17,7 @@ function App() {
       <div className="">
         <Title name='Expense Tracker' />
 
-        <div className="flex p-4 my-2 bg-gray-700 items-center rounded-2xl w-full">
+        <div className="flex p-4 my-2 flex-col lg:flex-row bg-gray-700 items-center rounded-2xl w-full">
           <div className="card w-full">
             <p>Wallet Balance : {walletBalance}</p>
           </div>
@@ -25,12 +25,12 @@ function App() {
             <p>Expenses : </p>
           </div>
 
-          <div className='card' style={{backgroundColor : '#364153'}}>
+          <div className='card w-full' style={{backgroundColor : '#364153'}}>
             <p>abc</p>
           </div>
         </div>
 
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid lg:grid-cols-3 grid-cols-1 gap-4">
           <div className="col-span-2">
             <Title name='Recent Transactions' italic />
             <div className='mt-3'>
