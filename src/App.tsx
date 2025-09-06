@@ -21,6 +21,15 @@ function App() {
     localStorage.setItem('expenses', JSON.stringify([...expenseData, addExpense]))
   }
 
+  const handleDelete = (index: number) => {
+    // console.log(index)
+    let expense_data = expenseData
+    expense_data.splice(index, 1)
+    setExpenseData(expense_data)
+    localStorage.setItem('expenses', JSON.stringify(expense_data))
+    // console.log(expense_data)
+  }
+
   useEffect(() => {
     if (localStorage.getItem('expenses')) {
       setExpenseData(JSON.parse(localStorage.getItem('expenses')!) as Expense[])
@@ -34,6 +43,7 @@ function App() {
     })
     setTotalExpense(totalExp)
     setWalletBalance(localStorage.getItem('amount'))
+    debugger
   }, [expenseData])
 
   return (
@@ -43,12 +53,12 @@ function App() {
 
         <div className="flex p-4 my-2 flex-col lg:flex-row bg-gray-700 items-center rounded-2xl w-full">
           <div className="card w-full">
-            <p>Wallet Balance : <span className='text-green-400'> ₹{walletBalance}</span></p>
+            <p>Wallet Balance : <span className='text-green-400 font-extrabold'> ₹{walletBalance}</span></p>
             <AddBalance setWalletBal={setWalletBalance} />
           </div>
           <div className="card w-full">
-            <p>Expenses : {totalExpense}</p>
-            <AddExpense setExpenseData={handleExpense} setWalletBal={setWalletBalance}/>
+            <p>Expenses :  <span className='text-red-300 font-extrabold'>₹{totalExpense}</span></p>
+            <AddExpense setExpenseData={handleExpense} setWalletBal={setWalletBalance} />
           </div>
 
           <div className='card w-full' style={{ backgroundColor: '#364153' }}>
@@ -62,7 +72,7 @@ function App() {
             <div className='mt-3'>
               {expenseData.length > 0 ? (
                 expenseData.map((expense, index) => (
-                  <DisplayExpenses expense={expense} index={index} key={index} />
+                  <DisplayExpenses expense={expense} index={index} key={index} onDelete={handleDelete} />
                 ))
               )
                 :

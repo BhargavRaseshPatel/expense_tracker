@@ -82,7 +82,7 @@ export function AddExpense({ setExpenseData, setWalletBal }: { setExpenseData: (
                             className="bg-yellow-400 w-[50%]"
                             onClick={(e) => {
                                 e.preventDefault(); // prevent form reload
-                                const { amount, title, category, date } = expense;
+                                const { amount, title, date } = expense;
                                 if (amount == 0 || title == "" || date == undefined) {
                                     alert("Please enter the all fields")
                                 } else {

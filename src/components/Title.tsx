@@ -1,4 +1,3 @@
-import React from 'react'
 
 const Title = ({name, italic} : {name : string, italic ?: boolean}) => {
   return (
