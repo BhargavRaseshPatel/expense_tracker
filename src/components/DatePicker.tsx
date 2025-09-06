@@ -11,9 +11,14 @@ import {
     PopoverTrigger,
 } from "../components/ui/popover"
 
-export function Calendar22({ selectedDate }: { selectedDate: (date: Date | undefined) => void }) {
+export function Calendar22({ selectedDate,editDate }: { selectedDate: (date: Date | undefined) => void, editDate ?:Date }) {
     const [open, setOpen] = React.useState(false)
     const [date, setDate] = React.useState<Date | undefined>(undefined)
+
+    React.useEffect(() => {
+        // debugger
+        setDate(editDate)
+    }, [editDate])
 
     return (
         <div className="flex flex-col gap-3">
@@ -27,7 +32,7 @@ export function Calendar22({ selectedDate }: { selectedDate: (date: Date | undef
                         id="date"
                         className="w-48 justify-between font-normal"
                     >
-                        {date ? date.toLocaleDateString() : "Select date"}
+                        {date instanceof Date ? date.toLocaleDateString() : "Select date"}
                         <ChevronDownIcon />
                     </Button>
                 </PopoverTrigger>

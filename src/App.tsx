@@ -24,9 +24,14 @@ function App() {
   const handleDelete = (index: number) => {
     // console.log(index)
     let expense_data = expenseData
-    expense_data.splice(index, 1)
+    const deletingExpense = expense_data.splice(index, 1)
+    const available_balance = Number(localStorage.getItem('amount'));
+    let total_balance = available_balance + deletingExpense[0].amount
+    localStorage.setItem('amount', ""+total_balance)
+    setWalletBalance(""+total_balance)
     setExpenseData(expense_data)
     localStorage.setItem('expenses', JSON.stringify(expense_data))
+    window.location.reload();
     // console.log(expense_data)
   }
 
@@ -43,7 +48,7 @@ function App() {
     })
     setTotalExpense(totalExp)
     setWalletBalance(localStorage.getItem('amount'))
-    debugger
+    // debugger
   }, [expenseData])
 
   return (
