@@ -5,6 +5,7 @@ import type { Expense } from './expens.type';
 import { AddBalance } from './components/AddBalance';
 import { AddExpense } from './components/AddExpense';
 import DisplayExpenses from './components/DisplayExpenses';
+import PieChart from './components/PieChart';
 
 function App() {
 
@@ -67,7 +68,7 @@ function App() {
           </div>
 
           <div className='card w-full' style={{ backgroundColor: '#364153' }}>
-            <p>abc</p>
+            <PieChart expenseData={expenseData}/>
           </div>
         </div>
 
