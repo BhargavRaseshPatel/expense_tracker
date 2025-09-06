@@ -22,7 +22,7 @@ import {
 } from "../components/ui/select"
 import { Calendar22 } from "./DatePicker"
 
-export function AddExpense({ setExpenseData }: { setExpenseData: (data: Expense) => void }) {
+export function AddExpense({ setExpenseData, setWalletBal }: { setExpenseData: (data: Expense) => void, setWalletBal: (data: string) => void }) {
 
     const [expense, setExpense] = useState<Expense>({
         title: '',
@@ -83,13 +83,22 @@ export function AddExpense({ setExpenseData }: { setExpenseData: (data: Expense)
                             onClick={(e) => {
                                 e.preventDefault(); // prevent form reload
                                 const { amount, title, category, date } = expense;
-                                if (amount == 0 || title == "" || date == undefined){
+                                if (amount == 0 || title == "" || date == undefined) {
                                     alert("Please enter the all fields")
                                 } else {
-                                    setExpenseData(expense)
-                                    setExpense({
-                                        title : "", amount : 0, category : "Food", date : new Date()
-                                    })
+                                    const available_balance = Number(localStorage.getItem('amount'))
+                                    if (available_balance < amount) {
+                                        alert("Available balance is less than expense")
+                                    } else {
+                                        setExpenseData(expense)
+                                        setExpense({
+                                            title: "", amount: 0, category: "Food", date: new Date()
+                                        })
+                                        let final_balance = available_balance - amount
+                                        localStorage.setItem('amount', ""+final_balance)
+                                        setWalletBal(""+final_balance)
+                                        setOpen(false)
+                                    }
                                 }
                             }}
                         >

@@ -8,19 +8,17 @@ import DisplayExpenses from './components/DisplayExpenses';
 
 function App() {
 
-  if (!localStorage.getItem('balance')) {
-    localStorage.setItem('balance', '5000')
+  if (!localStorage.getItem('amount')) {
+    localStorage.setItem('amount', '5000')
   }
 
-  const [walletBalance, setWalletBalance] = useState(localStorage.getItem('balance'));
+  const [walletBalance, setWalletBalance] = useState(localStorage.getItem('amount'));
   const [expenseData, setExpenseData] = useState<Expense[]>([])
   const [totalExpense, setTotalExpense] = useState(0)
 
   const handleExpense = (addExpense: any) => {
-    // console.log(data)
     setExpenseData((data) => ([...data, addExpense]))
     localStorage.setItem('expenses', JSON.stringify([...expenseData, addExpense]))
-    console.log(expenseData)
   }
 
   useEffect(() => {
@@ -35,6 +33,7 @@ function App() {
       totalExp += expense.amount
     })
     setTotalExpense(totalExp)
+    setWalletBalance(localStorage.getItem('amount'))
   }, [expenseData])
 
   return (
@@ -49,7 +48,7 @@ function App() {
           </div>
           <div className="card w-full">
             <p>Expenses : {totalExpense}</p>
-            <AddExpense setExpenseData={handleExpense} />
+            <AddExpense setExpenseData={handleExpense} setWalletBal={setWalletBalance}/>
           </div>
 
           <div className='card w-full' style={{ backgroundColor: '#364153' }}>

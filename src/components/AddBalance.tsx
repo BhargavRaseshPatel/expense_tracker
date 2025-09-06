@@ -39,9 +39,9 @@ export function AddBalance({ setWalletBal }: { setWalletBal: (balance: string) =
               className="bg-yellow-400"
               onClick={(e) => {
                 e.preventDefault(); // prevent form reload
-                let available_balance = Number(localStorage.getItem("balance")) || 0;
+                let available_balance = Number(localStorage.getItem("amount"));
                 let total_balance = available_balance + addBalance;
-                localStorage.setItem("balance", total_balance.toString());
+                localStorage.setItem("amount", total_balance.toString());
                 setWalletBal(total_balance.toString());
                 setAddBalance(0)
                 setOpen(false); // close dialog
