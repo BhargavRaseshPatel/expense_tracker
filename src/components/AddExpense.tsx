@@ -9,18 +9,7 @@ import {
     DialogTrigger,
 } from "../components/ui/dialog"
 import { Input } from "../components/ui/input"
-import Title from "./Title"
 import type { Expense } from "@/expens.type"
-import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectLabel,
-    SelectTrigger,
-    SelectValue,
-} from "../components/ui/select"
-import { Calendar22 } from "./DatePicker"
 
 export function AddExpense({ setExpenseData, setWalletBal }: { setExpenseData: (data: Expense) => void, setWalletBal: (data: string) => void }) {
 
@@ -37,20 +26,22 @@ export function AddExpense({ setExpenseData, setWalletBal }: { setExpenseData: (
         <Dialog open={open} onOpenChange={setOpen}>
             <form>
                 <DialogTrigger asChild>
-                    <Button className="bg-red-500 w-50">+ Add Expenses</Button>
+                    <Button className="bg-red-500 w-50">+ Add Expense</Button>
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-[425px] bg-white text-black">
                     <DialogHeader>
-                        <DialogTitle><Title name="Add Expenses" /></DialogTitle>
+                        <DialogTitle><span className="text-2xl font-bold ">Add Expenses</span></DialogTitle>
                     </DialogHeader>
 
                     <div className="flex flex-row gap-2">
                         <Input
+                            name="title"
                             placeholder="Title"
                             value={expense.title}
                             onChange={(e) => setExpense((data) => ({ ...data, title: e.target.value }))}
                         />
                         <Input
+                            name="price"
                             placeholder="Price"
                             type="number"
                             value={expense.amount}
@@ -59,7 +50,7 @@ export function AddExpense({ setExpenseData, setWalletBal }: { setExpenseData: (
                     </div>
 
                     <div className="flex flex-row gap-2">
-                        <Select onValueChange={(v: any) => setExpense((data) => ({ ...data, category: v }))}>
+                        {/* <Select onValueChange={(v: any) => setExpense((data) => ({ ...data, category: v }))} name="category">
                             <SelectTrigger className="w-[180px] bg-white text-black">
                                 <SelectValue placeholder="Select Category" />
                             </SelectTrigger>
@@ -71,9 +62,18 @@ export function AddExpense({ setExpenseData, setWalletBal }: { setExpenseData: (
                                     <SelectItem value="Travel">Travel</SelectItem>
                                 </SelectGroup>
                             </SelectContent>
-                        </Select>
+                        </Select> */}
 
-                        <Calendar22 selectedDate={(value) => setExpense((data) => ({ ...data, date: value }))} />
+                        <select name="category" className="w-full input-field" onChange={(value) => console.log(value.target.value)} defaultValue="">
+                            <option value="" disabled>Select Category</option>
+                            <option value="Food">Food</option>
+                            <option value="Entertainment">Entertainment</option>
+                            <option value="Travel">Travel</option>
+                        </select>
+
+                        {/* <Calendar22 selectedDate={(value) => setExpense((data) => ({ ...data, date: value }))} /> */}
+
+                        <input type="date" name="date"  className="w-full input-field"/>
                     </div>
 
                     <div className="flex gap-2">
@@ -95,8 +95,8 @@ export function AddExpense({ setExpenseData, setWalletBal }: { setExpenseData: (
                                             title: "", amount: 0, category: "Food", date: new Date()
                                         })
                                         let final_balance = available_balance - amount
-                                        localStorage.setItem('amount', ""+final_balance)
-                                        setWalletBal(""+final_balance)
+                                        localStorage.setItem('amount', "" + final_balance)
+                                        setWalletBal("" + final_balance)
                                         setOpen(false)
                                     }
                                 }

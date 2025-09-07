@@ -19,7 +19,7 @@ export function AddBalance({ setWalletBal }: { setWalletBal: (balance: string) =
     <Dialog open={open} onOpenChange={setOpen}>
       <form>
         <DialogTrigger asChild>
-          <Button className="bg-green-500 w-50">+ Add Balance</Button>
+          <Button className="bg-green-500 w-50">+ Add Income</Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px] bg-white text-black">
           <DialogHeader>

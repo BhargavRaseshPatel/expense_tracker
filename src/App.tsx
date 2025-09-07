@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import './App.css'
-import Title from './components/Title'
 import type { Expense } from './expens.type';
 import { AddBalance } from './components/AddBalance';
 import { AddExpense } from './components/AddExpense';
@@ -55,15 +54,16 @@ function App() {
   return (
     <>
       <div className="">
-        <Title name='Expense Tracker' />
+        {/* <Title name='Expense Tracker' /> */}
+         <h1 className="text-2xl font-bold">Expense Tracker</h1>
 
         <div className="flex p-4 my-2 flex-col lg:flex-row bg-gray-700 items-center rounded-2xl w-full">
           <div className="card w-full">
-            <p>Wallet Balance : <span className='text-green-400 font-extrabold'> ₹{walletBalance}</span></p>
+            <p>Wallet Balance: <span className='text-green-400 font-extrabold'> ₹{walletBalance}</span></p>
             <AddBalance setWalletBal={setWalletBalance} />
           </div>
           <div className="card w-full">
-            <p>Expenses :  <span className='text-red-300 font-extrabold'>₹{totalExpense}</span></p>
+            <p>Expenses:  <span className='text-red-300 font-extrabold'>₹{totalExpense}</span></p>
             <AddExpense setExpenseData={handleExpense} setWalletBal={setWalletBalance} />
           </div>
 
@@ -74,7 +74,8 @@ function App() {
 
         <div className="grid lg:grid-cols-3 grid-cols-1 gap-4">
           <div className="col-span-2">
-            <Title name='Recent Transactions' italic />
+            {/* <Title name='Recent Transactions' italic /> */}
+             <h2 className="text-2xl font-bold italic">Recent Transactions</h2>
             <div className='mt-3'>
               {expenseData.length > 0 ? (
                 expenseData.map((expense, index) => (
@@ -87,7 +88,7 @@ function App() {
             </div>
           </div>
           <div>
-            <Title name='Top Expenses' italic />
+             <h2 className="text-2xl font-bold italic">Top Expenses</h2>
           </div>
         </div>
       </div>
