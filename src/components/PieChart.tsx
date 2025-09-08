@@ -6,11 +6,19 @@ const ExpensePieChart = ({ expenseData }: { expenseData: Expense[] }) => {
     const [data, setData] = useState<{ id: number; value: number; label: string }[]>([]);
 
     useEffect(() => {
-        let pieData = expenseData.map((item, index) => ({
-            id: index,
-            value: item.amount,
-            label: item.category ?? "Unknown"
-        }));
+        let pieData = [
+            { id: 0, label: 'Entertainment', value: 0 },
+            { id: 1, label: 'Food', value: 0 },
+            { id: 2, label: 'Travel', value: 0 }
+        ];
+
+        expenseData.forEach((expdata) => {
+            const categoryData = pieData.find((data) => data.label === expdata.category);
+            if (categoryData) {
+            categoryData.value += expdata.amount;
+            }
+        });
+        
         console.log(expenseData)
         setData(pieData);
     }, [expenseData]);

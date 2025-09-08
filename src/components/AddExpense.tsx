@@ -64,7 +64,7 @@ export function AddExpense({ setExpenseData, setWalletBal }: { setExpenseData: (
                             </SelectContent>
                         </Select> */}
 
-                        <select name="category" className="w-full input-field" onChange={(value) => console.log(value.target.value)} defaultValue="">
+                        <select name="category" className="w-full input-field" onChange={(e) => setExpense((data) => ({ ...data, category: e.target.value as 'Food' | 'Entertainment' | 'Travel' }))} defaultValue="">
                             <option value="" disabled>Select Category</option>
                             <option value="Food">Food</option>
                             <option value="Entertainment">Entertainment</option>
