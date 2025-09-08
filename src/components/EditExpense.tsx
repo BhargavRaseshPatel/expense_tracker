@@ -11,16 +11,6 @@ import {
 import { Input } from "../components/ui/input"
 import Title from "./Title"
 import type { Expense } from "@/expens.type"
-import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectLabel,
-    SelectTrigger,
-    SelectValue,
-} from "../components/ui/select"
-import { Calendar22 } from "./DatePicker"
 import { MdOutlineEdit } from "react-icons/md"
 
 export function EditExpense({ index }: { index: number }) {
@@ -36,10 +26,10 @@ export function EditExpense({ index }: { index: number }) {
         const expensesData = JSON.parse(localStorage.getItem('expenses')!) as Expense[]
         let expense = expensesData[index]
         setExpense({
-            title : expense.title,
-            category : expense.category,
-            date : expense.date,
-            amount : expense.amount
+            title: expense.title,
+            category: expense.category,
+            date: expense.date,
+            amount: expense.amount
         })
     }, [index])
 
@@ -49,11 +39,11 @@ export function EditExpense({ index }: { index: number }) {
         <Dialog open={open} onOpenChange={setOpen}>
             <form>
                 <DialogTrigger asChild>
-                    <Button ><MdOutlineEdit  className='size-8 h-10 w-10 p-1 bg-yellow-500 text-white rounded-lg' /></Button>
+                    <Button ><MdOutlineEdit className='size-8 h-10 w-10 p-1 bg-yellow-500 text-white rounded-lg' /></Button>
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-[425px] bg-white text-black">
                     <DialogHeader>
-                        <DialogTitle><Title name="Add Expenses" /></DialogTitle>
+                        <DialogTitle><Title name="Update Expenses" /></DialogTitle>
                     </DialogHeader>
 
                     <div className="flex flex-row gap-2">
@@ -71,21 +61,15 @@ export function EditExpense({ index }: { index: number }) {
                     </div>
 
                     <div className="flex flex-row gap-2">
-                        <Select value={expense.category} onValueChange={(v: any) => setExpense((data) => ({ ...data, category: v }))}>
-                            <SelectTrigger className="w-[180px] bg-white text-black">
-                                <SelectValue placeholder="Select Category" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectGroup className="bg-gray-300 text-black">
-                                    <SelectLabel>Fruits</SelectLabel>
-                                    <SelectItem value="Food">Food</SelectItem>
-                                    <SelectItem value="Entertainment">Entertainment</SelectItem>
-                                    <SelectItem value="Travel">Travel</SelectItem>
-                                </SelectGroup>
-                            </SelectContent>
-                        </Select>
-
-                        <Calendar22 editDate={expense.date} selectedDate={(value) => setExpense((data) => ({ ...data, date: value }))} />
+                        <select name="category" className="w-full input-field" defaultValue={expense.category}
+                            onChange={(e) => setExpense((data) => ({ ...data, category: e.target.value as 'Food' | 'Entertainment' | 'Travel' }))}>
+                            <option value="" disabled>Select Category</option>
+                            <option value="Food">Food</option>
+                            <option value="Entertainment">Entertainment</option>
+                            <option value="Travel">Travel</option>
+                        </select>
+                        <input type="date" name="date" onChange={(e) => setExpense((data) => ({ ...data, date: new Date(e.target.value) }))}
+                            value={new Date(expense.date!).toISOString().split('T')[0]} className="w-full input-field" />
                     </div>
 
                     <div className="flex gap-2">
@@ -94,27 +78,20 @@ export function EditExpense({ index }: { index: number }) {
                             className="bg-yellow-400 w-[50%]"
                             onClick={(e) => {
                                 e.preventDefault(); // prevent form reload
-                                // const { amount, title, date } = expense;
-                                // if (amount == 0 || title == "" || date == undefined) {
-                                //     alert("Please enter the all fields")
-                                // } else {
-                                //     const available_balance = Number(localStorage.getItem('amount'))
-                                //     if (available_balance < amount) {
-                                //         alert("Available balance is less than expense")
-                                //     } else {
-                                //         setExpenseData(expense)
-                                //         setExpense({
-                                //             title: "", amount: 0, category: "Food", date: new Date()
-                                //         })
-                                //         let final_balance = available_balance - amount
-                                //         localStorage.setItem('amount', "" + final_balance)
-                                //         setWalletBal("" + final_balance)
-                                //         setOpen(false)
-                                //     }
-                                // }
+                                const expensesData = JSON.parse(localStorage.getItem('expenses')!) as Expense[]
+                                expensesData[index] = {
+                                    title: expense.title,
+                                    amount: expense.amount,
+                                    category: expense.category,
+                                    date: expense.date
+                                }
+                                // console.log(JSON.stringify(expensesData))
+                                localStorage.setItem('expenses', JSON.stringify(expensesData))
+                                setOpen(false);
+                                window.location.reload();
                             }}
                         >
-                            Add Expense
+                            Update Expense
                         </Button>
 
                         <DialogClose asChild>

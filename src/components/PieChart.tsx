@@ -18,8 +18,7 @@ const ExpensePieChart = ({ expenseData }: { expenseData: Expense[] }) => {
             categoryData.value += expdata.amount;
             }
         });
-        
-        console.log(expenseData)
+
         setData(pieData);
     }, [expenseData]);
 

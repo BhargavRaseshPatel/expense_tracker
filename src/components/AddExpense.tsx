@@ -50,19 +50,6 @@ export function AddExpense({ setExpenseData, setWalletBal }: { setExpenseData: (
                     </div>
 
                     <div className="flex flex-row gap-2">
-                        {/* <Select onValueChange={(v: any) => setExpense((data) => ({ ...data, category: v }))} name="category">
-                            <SelectTrigger className="w-[180px] bg-white text-black">
-                                <SelectValue placeholder="Select Category" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectGroup className="bg-gray-300 text-black">
-                                    <SelectLabel>Fruits</SelectLabel>
-                                    <SelectItem value="Food">Food</SelectItem>
-                                    <SelectItem value="Entertainment">Entertainment</SelectItem>
-                                    <SelectItem value="Travel">Travel</SelectItem>
-                                </SelectGroup>
-                            </SelectContent>
-                        </Select> */}
 
                         <select name="category" className="w-full input-field" onChange={(e) => setExpense((data) => ({ ...data, category: e.target.value as 'Food' | 'Entertainment' | 'Travel' }))} defaultValue="">
                             <option value="" disabled>Select Category</option>
@@ -70,10 +57,7 @@ export function AddExpense({ setExpenseData, setWalletBal }: { setExpenseData: (
                             <option value="Entertainment">Entertainment</option>
                             <option value="Travel">Travel</option>
                         </select>
-
-                        {/* <Calendar22 selectedDate={(value) => setExpense((data) => ({ ...data, date: value }))} /> */}
-
-                        <input type="date" name="date"  className="w-full input-field"/>
+                        <input type="date" name="date" onChange={(e) => setExpense((data) => ({...data, date: new Date(e.target.value)}))}  className="w-full input-field"/>
                     </div>
 
                     <div className="flex gap-2">
